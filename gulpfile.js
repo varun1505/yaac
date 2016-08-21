@@ -7,6 +7,8 @@ var path = require('path');
 var plumber = require('gulp-plumber');
 var runSequence = require('run-sequence');
 var jshint = require('gulp-jshint');
+var templateCache = require('gulp-angular-templatecache');
+var del = require('del');
 
 /**
  * File patterns
@@ -27,8 +29,17 @@ var sourceFiles = [
   path.join(sourceDirectory, '/**/*.module.js'),
 
   // Then add all JavaScript files
-  path.join(sourceDirectory, '/**/*.js')
+  path.join(sourceDirectory, '/**/*.js'),
+
+
 ];
+
+var filesToWatch = [
+  path.join(sourceDirectory, '/yaac/**/*.html'),
+  path.join(sourceDirectory, '/yaac/**/*.js')  
+];
+
+console.log(filesToWatch);
 
 var lintFiles = [
   'gulpfile.js',
@@ -37,7 +48,7 @@ var lintFiles = [
 ].concat(sourceFiles);
 
 gulp.task('build', function() {
-  gulp.src(sourceFiles)
+  return gulp.src(sourceFiles)
     .pipe(plumber())
     .pipe(concat('yaac.js'))
     .pipe(gulp.dest('./dist/'))
@@ -47,10 +58,29 @@ gulp.task('build', function() {
 });
 
 /**
+ * Convert the templates to templatecache
+ */
+gulp.task('templatecache', function () {
+  return gulp.src('./src/**/*.html')
+    .pipe(templateCache('yaac.templates.js', {module: 'yaac.templates', root: '/'}))
+    .pipe(gulp.dest('./src/temp/'));
+});
+
+/**
+ * Clean up (delete) the generated temp files
+ */
+gulp.task('clean', function(){
+   return del([
+    './src/temp'
+  ]);
+});
+
+
+/**
  * Process
  */
 gulp.task('process-all', function (done) {
-  runSequence('jshint', 'test-src', 'build', done);
+  runSequence('jshint', 'test-src', 'templatecache', 'build', 'clean', done);
 });
 
 /**
@@ -59,7 +89,7 @@ gulp.task('process-all', function (done) {
 gulp.task('watch', function () {
 
   // Watch JavaScript files
-  gulp.watch(sourceFiles, ['process-all']);
+  gulp.watch(filesToWatch, ['process-all']);
 
   // watch test files and re-run unit tests when changed
   gulp.watch(path.join(testDirectory, '/**/*.js'), ['test-src']);
@@ -109,3 +139,5 @@ gulp.task('test-dist-minified', function (done) {
 gulp.task('default', function () {
   runSequence('process-all', 'watch');
 });
+
+
