@@ -1,0 +1,28 @@
+{
+  "generator-angularjs-library": {
+    "props": {
+      "author": {
+        "name": "varun1505",
+        "email": "varun1505@gmail.com"
+      },
+      "libraryName": {
+        "original": "yaac",
+        "camelized": "yaac",
+        "dasherized": "yaac",
+        "slugified": "yaac",
+        "parts": [
+          "yaac"
+        ]
+      },
+      "includeModuleDirectives": true,
+      "includeModuleFilters": true,
+      "includeModuleServices": false,
+      "includeAngularModuleResource": false,
+      "includeAngularModuleCookies": false,
+      "includeAngularModuleSanitize": false,
+      "librarySrcDirectory": "src/yaac",
+      "libraryUnitTestDirectory": "test/unit/yaac",
+      "libraryUnitE2eDirectory": "test/e2e/yaac"
+    }
+  }
+}
