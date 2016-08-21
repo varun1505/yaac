@@ -13,11 +13,13 @@
   // Modules
   angular.module('yaac.directives', []);
   angular.module('yaac.filters', []);
+  angular.module('yaac.templates', []);
   angular.module('yaac',
       [
           'yaac.config',
           'yaac.directives',
-          'yaac.filters'
+          'yaac.filters',
+          'yaac.templates'
       ]);
 
 })(angular);
