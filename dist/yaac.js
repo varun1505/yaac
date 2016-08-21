@@ -13,15 +13,18 @@
   // Modules
   angular.module('yaac.directives', []);
   angular.module('yaac.filters', []);
+  angular.module('yaac.templates', []);
   angular.module('yaac',
       [
           'yaac.config',
           'yaac.directives',
-          'yaac.filters'
+          'yaac.filters',
+          'yaac.templates'
       ]);
 
 })(angular);
 
+angular.module('yaac.templates').run(['$templateCache', function($templateCache) {$templateCache.put('/yaac/directives/yaac.template.html','<h2>Template!</h2>');}]);
 (function (angular) {
 
   angular.module('yaac.directives')
@@ -36,7 +39,7 @@
   		// require: 'ngModel', // Array = multiple requires, ? = optional, ^ = check parent elements
   		restrict: 'E', // E = Element, A = Attribute, C = Class, M = Comment
   		// template: '',
-  		templateUrl: '/yaac/src/yaac/directives/yaac.template.html', //TODO: figure out how to get a generic route
+  		templateUrl: '/yaac/directives/yaac.template.html',
   		// replace: true,
   		// transclude: true,
   		link: function($scope, iElm, iAttrs, controller) {
