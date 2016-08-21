@@ -1,2 +1,2 @@
-# yaac
+# Yet Another AngularJS Calendar Directive
 
